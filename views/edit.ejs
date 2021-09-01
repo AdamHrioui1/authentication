@@ -1,0 +1,66 @@
+<%- include('./includes/header.ejs') %>   
+   <div class="container">
+        <% if(user) { %>
+            <form>
+                <h1>Edit</h1>
+                <label for="username">Username</label>
+                <input type="text" name="username" placeholder="Username..." value="<%= user.username %>">
+                <div id="username" class="error"></div>
+
+                <label for="lastname">lastname</label>
+                <input type="text" name="lastname" placeholder="Lastname..." value="<%= user.lastname %>">
+                <div id="lastname" class="error"></div>
+
+                <label for="email">Email</label>
+                <input type="text" name="email" placeholder="Enter an email..." value="<%= user.email %>">
+                <div id="email" class="error"></div>
+
+                <label for="password">password</label>
+                <input type="password" name="password" placeholder="Enter a password...">
+                <div id="password" class="error"></div>
+
+                <button type="submit" class="btn big">Submit</button>
+            </form> 
+        <% } %>       
+    </div>
+
+    <script>
+        const form = document.querySelector('form')
+        const username_error = document.querySelector('#username')
+        const lastname_error = document.querySelector('#lastname')
+        const email_error = document.querySelector('#email')
+        const password_error = document.querySelector('#password')
+
+        form.addEventListener('submit', async(e) => {
+            e.preventDefault()
+
+            const username = form.username.value
+            const lastname = form.lastname.value
+            const email = form.email.value
+            const password = form.password.value
+
+            await fetch('/edit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, lastname, email, password })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("the data iiiiiis : ", data);
+                if(data.data){
+                    document.location.pathname = '/'
+                }
+                if(data.error){
+                    username_error.textContent = data.error.username
+                    lastname_error.textContent = data.error.lastname
+                    email_error.textContent = data.error.email
+                    password_error.textContent = data.error.password
+                }
+            })
+        });
+
+    </script>
+</body>
+</html>

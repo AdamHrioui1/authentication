@@ -1,0 +1,32 @@
+<%- include('./includes/header.ejs') %>    
+    <div class="container normal">
+        <div class="account_container">    
+            <% if(user) { %>
+                <h1>Hello, <%= user.username %></h1>
+                <ul>
+                    <li><strong>Username :</strong> <%= user.username %></li>
+                    <li><strong>Lastname :</strong> <%= user.lastname %></li>
+                    <li><strong>Email :</strong> <%= user.email %></li>
+                </ul>
+            <% } %>
+            <div class="btn">
+                <a href="/edit">Edit</a>
+            </div>
+            <div id="delete" class="btn danger">
+                <span>Delete</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        const deleteUser = document.querySelector('#delete')
+        deleteUser.addEventListener('click', () => {
+            if(confirm('Are you sure you want to delete your account')){
+                document.location.pathname = '/deleteUser';
+                document.referrer
+            }
+        });
+    </script>
+</body>
+</html>
